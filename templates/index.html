@@ -30,8 +30,8 @@
                     <td>{{ task.content }}</td>
                     <td>{{ task.dateCreated.date() }}</td>
                     <td>
-                        <a href="/update/{{task.id}}" class="btn btn-success btn-block"><span class="bi bi-pencil-square"></span> Edit</a>
-                        <a href="/delete/{{task.id}}" class="btn btn-danger btn-block"><span class="bi bi-trash"></span> Delete</a>
+                        <a href="/task_update/{{task.id}}" class="btn btn-success btn-block"><span class="bi bi-pencil-square"></span> Edit</a>
+                        <a href="/task_delete/{{task.id}}" class="btn btn-danger btn-block"><span class="bi bi-trash"></span> Delete</a>
                     </td>
                 </tr>
                 {% endfor %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<title>TheBlog</title>
+{% endblock %}
+
+
+
+{% block body %}
+
+<hr>
+<h2>Create new Blog Posts</h2>
+<form action="/blog_posts" method="POST">
+    Title: <input type="text" name="title" id="title">
+    <br>
+    Post: <input type="text" name="content" id="content">
+    <br>
+    <button type="submit" class="btn btn-primary">Post</button>
+</form>
+<hr>
+<h1>All Posts</h1>
+
+    {% for post in posts %}
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.content }}</p>
+        <h5>{{ post.author }}</h5>
+        <a href="/blog_post_delete/{{post.id}}" class="btn btn-danger">Delete</a>
+    {% endfor %}
+
+
+
+
+
+{% endblock %}
