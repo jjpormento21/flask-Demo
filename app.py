@@ -29,6 +29,7 @@ class BlogPost(db.Model):
     def __repr__(self):
         return 'Blog post' + str(self.id)
 
+#The routing stuff
 @app.route('/', methods=['POST','GET'])
 def index():
     if request.method == 'POST':
