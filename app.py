@@ -14,7 +14,7 @@ db = SQLAlchemy(app) #initialize database
 class toDo(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     content = db.Column(db.String(200), nullable = False)
-    dateCreated = db.Column(db.DateTime, default =datetime.utcnow)
+    dateCreated = db.Column(db.DateTime, default =datetime.now)
 
     def __repr__(self):
         return '<Task %r>' % self.id
@@ -24,12 +24,29 @@ class BlogPost(db.Model):
     title = db.Column(db.String(50), nullable = False)
     content = db.Column(db.Text, nullable=False)
     author = db.Column(db.String(20), nullable=False, default='Anonymous User')
-    datePosted = db.Column(db.DateTime, nullable = False , default =datetime.utcnow)
+    datePosted = db.Column(db.DateTime, nullable = False , default = datetime.now)
 
     def __repr__(self):
         return 'Blog post' + str(self.id)
 
 #The routing stuff
+#Blog Posts
+@app.route('/blog_posts', methods=['GET', 'POST'])
+def posts():
+    
+    if request.method == 'POST':
+        post_title = request.form['title']
+        post_content = request.form['content']
+        post_author = request.form['author']
+        new_post = BlogPost(title=post_title, content=post_content, author=post_author)
+        db.session.add(new_post)
+        db.session.commit()
+        return redirect('/blog_posts')
+    else:
+        all_posts = BlogPost.query.order_by(BlogPost.datePosted).all()
+        return render_template('posts.html', posts=all_posts)
+
+#To-do app
 @app.route('/', methods=['POST','GET'])
 def index():
     if request.method == 'POST':
@@ -68,6 +85,19 @@ def task_delete(id):
     except:
         return 'There was an issue deleting this task'
 
+#Updating Stuff
+@app.route('/blog_edit/<int:id>', methods= ['GET', 'POST'])
+def blog_edit(id):
+    post = BlogPost.query.get_or_404(id)
+    if request.method == 'POST':
+        post.title = request.form['title']
+        post.author = request.form['author']
+        post.content = request.form['content']
+        db.session.commit()
+        return redirect('/blog_posts')
+    else:
+        return render_template('blog_edit.html', post=post)
+
 @app.route('/task_update/<int:id>', methods = ['GET', 'POST'])
 def task_update(id):
     task = toDo.query.get_or_404(id)
@@ -83,20 +113,6 @@ def task_update(id):
     else:
         return render_template('task_update.html', task=task)
 
-#Blog Posts
-@app.route('/blog_posts', methods=['GET', 'POST'])
-def posts():
-    
-    if request.method == 'POST':
-        post_title = request.form['title']
-        post_content = request.form['content']
-        new_post = BlogPost(title=post_title, content=post_content)
-        db.session.add(new_post)
-        db.session.commit()
-        return redirect('/blog_posts')
-    else:
-        all_posts = BlogPost.query.order_by(BlogPost.datePosted).all()
-        return render_template('posts.html', posts=all_posts)
 
 
 if __name__ == "__main__":

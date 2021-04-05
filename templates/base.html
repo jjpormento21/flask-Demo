@@ -29,7 +29,7 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-link" href="/">Task Master <span class="sr-only">(current)</span></a>
-                <a class="nav-link" href="/blog_posts">Blog Posts</a>
+                <a class="nav-link" href="/blog_posts">Freedom Wall</a>
                 <a href="https://bit.ly/31VUq8t" class="nav-link">About</a>
             </div>
         </div>
@@ -41,7 +41,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
         crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename = 'js/main.js')}}"></script>
     {% block body %} {% endblock %}
+
 </body>
 
 </html>
