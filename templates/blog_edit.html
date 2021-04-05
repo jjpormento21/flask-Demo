@@ -8,7 +8,7 @@
 {% block body %}
 <div class="container">
     <hr>
-    <h2>Editing Posts</h2>
+    <h2 class="display-4">Edit Post</h2>
     <form action="/blog_edit/{{post.id}}" method="POST" novalidate>
         <label for="title">Title</label>
         <input class="form-control" type="text" name="title" id="title" value="{{post.title}}" autocomplete="off" required>
