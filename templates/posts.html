@@ -33,18 +33,20 @@
             <div class="modal-body">
                 <form action="/blog_posts" method="POST">
                     <label for="title">Title</label>
-                    <input class="form-control" type="text" name="title" id="title" placeholder="Post Title" required autocomplete="off">
+                    <input class="form-control" type="text" name="title" id="title" placeholder="Post Title" required
+                        autocomplete="off">
                     <br>
                     <label for="author">Author</label>
-                    <input class="form-control" type="text" name="author" id="author" placeholder="Username" required autocomplete="off">
+                    <input class="form-control" type="text" name="author" id="author" placeholder="Username" required
+                        autocomplete="off">
                     <br>
                     <label for="content">Post</label>
-                    <textarea class="form-control" style="resize: none;" name="content" id="content" cols="30" rows="10"
-                        placeholder="What's on your mind?"></textarea>
+                    <textarea class="form-control" style="resize: none;" name="content" id="content" cols="30" rows="8"
+                        placeholder="What's on your mind?" required></textarea>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="reset" class="btn btn-secondary">Clear Entries</button>
                 <button type="submit" class="btn btn-primary">Post</button>
             </div>
             </form>
@@ -55,7 +57,18 @@
 
 <div class="container">
     <hr>
-    <h1>All Posts</h1>
+    <h1 class="display-4">All Posts</h1>
+    <div class="dropdown mb-3 text-right">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="bi bi-filter"></i>  Sort by
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="/blog_posts">Latest</a>
+            <a class="dropdown-item" href="/blog_posts_old">Oldest</a>
+            <a class="dropdown-item disabled" href="#">Coming soon!</a>
+        </div>
+    </div>
     {% if posts|length < 1 %} <div class="alert alert-info text-center">
         <i class="bi bi-newspaper" style="font-size: 50px;"></i>
         <br>
@@ -68,7 +81,7 @@
     <h4 class="card-header">{{ post.title }}</h4>
     <div class="card-body">
         <h5 class="card-title"> <i class="bi bi-person-circle"></i> {{ post.author }}</h5>
-        <h6 class="card-subtitle text-secondary"> <i class="bi bi-calendar3"></i> {{ post.datePosted }}</h6>
+        <h6 class="card-subtitle text-muted font-weight-light"> <i class="bi bi-calendar3"></i> {{ post.datePosted }}</h6>
         <hr>
         <p style="white-space: pre-wrap;">{{ post.content }}</p>
         <hr>

@@ -14,7 +14,7 @@ db = SQLAlchemy(app) #initialize database
 class toDo(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     content = db.Column(db.String(200), nullable = False)
-    dateCreated = db.Column(db.DateTime, default =datetime.now)
+    dateCreated = db.Column(db.DateTime, default = datetime.today)
 
     def __repr__(self):
         return '<Task %r>' % self.id
@@ -23,8 +23,8 @@ class BlogPost(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String(50), nullable = False)
     content = db.Column(db.Text, nullable=False)
-    author = db.Column(db.String(20), nullable=False, default='Anonymous User')
-    datePosted = db.Column(db.DateTime, nullable = False , default = datetime.now)
+    author = db.Column(db.String(20), nullable=False)
+    datePosted = db.Column(db.DateTime, nullable = False , default = datetime.today)
 
     def __repr__(self):
         return 'Blog post' + str(self.id)
@@ -33,17 +33,17 @@ class BlogPost(db.Model):
 #Blog Posts
 @app.route('/blog_posts', methods=['GET', 'POST'])
 def posts():
-    
+    #it is latest by default
     if request.method == 'POST':
         post_title = request.form['title']
         post_content = request.form['content']
         post_author = request.form['author']
-        new_post = BlogPost(title=post_title, content=post_content, author=post_author)
+        new_post = BlogPost(title=post_title, author=post_author, content=post_content)
         db.session.add(new_post)
         db.session.commit()
         return redirect('/blog_posts')
     else:
-        all_posts = BlogPost.query.order_by(BlogPost.datePosted).all()
+        all_posts = BlogPost.query.order_by(BlogPost.datePosted.desc()).all()
         return render_template('posts.html', posts=all_posts)
 
 #To-do app
@@ -113,7 +113,21 @@ def task_update(id):
     else:
         return render_template('task_update.html', task=task)
 
-
+#Filters
+@app.route('/blog_posts_old', methods=['GET', 'POST'])
+def posts_oldesr():
+    
+    if request.method == 'POST':
+        post_title = request.form['title']
+        post_content = request.form['content']
+        post_author = request.form['author']
+        new_post = BlogPost(title=post_title, author=post_author, content=post_content)
+        db.session.add(new_post)
+        db.session.commit()
+        return redirect('/blog_posts')
+    else:
+        all_posts = BlogPost.query.order_by(BlogPost.datePosted).all()
+        return render_template('posts.html', posts=all_posts)
 
 if __name__ == "__main__":
     app.run(debug=True) #if there are errors, it will show on the page
