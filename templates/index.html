@@ -1,62 +1,68 @@
-{% extends 'base.html' %}
-
-{% block head %}
+{% extends 'base.html' %} {% block head %}
 <title>To-do List alpha</title>
-{% endblock %}
-
-{% block body %}
+<meta id="page-data" data-name="0" />
+{% endblock %} {% block body %}
 <div class="content">
-    <h1 class="text-center mt-3 mb-3">Task Master</h1>
+  <h1 class="text-center mt-3 mb-3">Task Master</h1>
 
-    <div class="container">
-        {% if tasks|length < 1 %}
-        <div class="alert alert-info">
-            <strong>You currently have no tasks.</strong> Get started by creating some tasks below!
-        </div>
-
-        {% else %}
-
-        <table class="table table-bordered">
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">Task</th>
-                    <th scope="col">Added</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for task in tasks %}
-                <tr>
-                    <td>{{ task.content }}</td>
-                    <td>{{ task.dateCreated.date() }}</td>
-                    <td>
-                        <a href="/task_update/{{task.id}}" class="btn btn-success btn-block"><span class="bi bi-pencil-square"></span> Edit</a>
-                        <a href="/task_delete/{{task.id}}" class="btn btn-danger btn-block"><span class="bi bi-trash"></span> Delete</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% endif %}
-
-        <form action="/" class="needs-validation" method="POST">
-            <div class="row">
-                <div class="col-lg-9">
-                    <input type="text" class="form-control mb-3" name="content" required id="content" placeholder="Enter Task"
-                    autocomplete="off" required>
-                </div>
-                <div class="col">
-                    <button class="btn btn-primary btn-block" type="submit">
-                        <i class="bi bi-plus-circle"></i> Add Task
-                    </button>
-                    
-                </div>
-            </div>
-            
-            
-        </form>
+  <div class="container">
+    {% if tasks|length < 1 %}
+    <div class="alert alert-info">
+      <strong>You currently have no tasks.</strong> Get started by creating some
+      tasks below!
     </div>
-    <div style="margin-bottom: 3em;"></div>
 
+    {% else %}
+
+    <table class="table table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Task</th>
+          <th scope="col">Added</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+        <tr>
+          <td>{{ task.content }}</td>
+          <td>{{ task.dateCreated.date() }}</td>
+          <td>
+            <a href="/task_update/{{task.id}}" class="btn btn-success btn-block"
+              ><span class="bi bi-pencil-square"></span> Edit</a
+            >
+            <a href="/task_delete/{{task.id}}" class="btn btn-danger btn-block"
+              ><span class="bi bi-trash"></span> Delete</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+
+    <form action="/" class="needs-validation" method="POST">
+      <div class="row">
+        <div class="col-lg-9">
+          <input
+            type="text"
+            class="form-control mb-3"
+            name="content"
+            required
+            id="content"
+            placeholder="Enter Task"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div class="col">
+          <button class="btn btn-primary btn-block" type="submit">
+            <i class="bi bi-plus-circle"></i> Add Task
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div style="margin-bottom: 3em"></div>
 </div>
 {% endblock %}

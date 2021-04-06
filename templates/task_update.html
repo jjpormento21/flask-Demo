@@ -1,36 +1,42 @@
-{% extends 'base.html' %}
-
-{% block head %}
+{% extends 'base.html' %} {% block head %}
 <title>To-do List alpha</title>
-{% endblock %}
-
-{% block body %}
+<meta id="page-data" data-name="{{pageId}}" />
+{% endblock %} {% block body %}
 <div class="content">
-    <h1 class="text-center">Task Master</h1>
+  <h1 class="text-center">Task Master</h1>
 
-    <div class="container">
-        
-        <h2 class="text-center">Update Tasks</h2>
+  <div class="container">
+    <h2 class="text-center">Update Tasks</h2>
 
-
-        <form action="/task_update/{{task.id}}" class="needs-validation" method="POST" novalidate>
-            <div class="row">
-                <div class="col-lg-8">
-                    <input type="text" class="form-control mb-3" name="content" id="content" value="{{task.content}}" autocomplete="off">
-                </div>
-                <div class="col-lg-2">
-                    <button class="btn btn-success btn-block mb-3" type="submit">
-                        <i class="bi bi-check-circle"></i> Update
-                    </button>
-                </div>
-                <div class="col-lg-2">
-                    <a href="/" class="btn btn-secondary btn-block"><i class="bi bi-x-circle"></i> Cancel</a>
-                </div>
-            </div>
-            
-            
-        </form>
-    </div>
-
+    <form
+      action="/task_update/{{task.id}}"
+      class="needs-validation"
+      method="POST"
+      novalidate
+    >
+      <div class="row">
+        <div class="col-lg-8">
+          <input
+            type="text"
+            class="form-control mb-3"
+            name="content"
+            id="content"
+            value="{{task.content}}"
+            autocomplete="off"
+          />
+        </div>
+        <div class="col-lg-2">
+          <button class="btn btn-success btn-block mb-3" type="submit">
+            <i class="bi bi-check-circle"></i> Update
+          </button>
+        </div>
+        <div class="col-lg-2">
+          <a href="/" class="btn btn-secondary btn-block"
+            ><i class="bi bi-x-circle"></i> Cancel</a
+          >
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}
