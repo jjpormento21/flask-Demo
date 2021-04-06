@@ -4,3 +4,7 @@ span > input {
     padding: 0;
     border: 0;
 }
+
+.nav-active {
+    color: lightblue;
+}
