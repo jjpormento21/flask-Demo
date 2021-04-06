@@ -1,7 +1,5 @@
-let index = 0;
-
 const navLinks = $(".nav-link");
+const pageData = $("#page-data").data();
 
-$(navLinks[0]).addClass("nav-highlight");
-
-console.log($("#page-data").data());
+console.log(pageData);
+$(navLinks[pageData.pageid]).addClass("active");
