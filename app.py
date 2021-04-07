@@ -25,6 +25,7 @@ class BlogPost(db.Model):
     content = db.Column(db.Text, nullable=False)
     author = db.Column(db.String(20), nullable=False)
     datePosted = db.Column(db.DateTime, nullable = False , default = datetime.utcnow)
+    dateEdited = db.Column(db.String(30), nullable = False, default = datetime.utcnow)
 
     def __repr__(self):
         return 'Blog post' + str(self.id)
@@ -93,6 +94,7 @@ def blog_edit(id):
         post.title = request.form['title']
         post.author = request.form['author']
         post.content = request.form['content']
+        post.dateEdited = request.form['dateEdited']
         db.session.commit()
         return redirect('/blog_posts')
     else:
@@ -115,7 +117,7 @@ def task_update(id):
 
 #Filters
 @app.route('/blog_posts_old', methods=['GET', 'POST'])
-def posts_oldesr():
+def posts_oldest():
     
     if request.method == 'POST':
         post_title = request.form['title']

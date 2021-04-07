@@ -82,7 +82,13 @@
     <h4 class="card-header">{{ post.title }}</h4>
     <div class="card-body">
         <h5 class="card-title"> <i class="bi bi-person-circle"></i> {{ post.author }}</h5>
-        <h6 class="card-subtitle text-muted font-weight-light"> <i class="bi bi-calendar3"></i> {{ post.datePosted }}</h6>
+        <h6 class="card-subtitle text-muted font-weight-light"> 
+            <i class="bi bi-calendar3"></i> 
+            <i>Posted: </i> {{ post.datePosted }}
+            <br>
+            <i class="bi bi-pencil"></i>
+            <i>Edited: </i> {{ post.dateEdited }}
+        </h6>
         <hr>
         <p style="white-space: pre-wrap;">{{ post.content }}</p>
         <hr>
