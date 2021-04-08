@@ -31,6 +31,12 @@ class BlogPost(db.Model):
         return 'Blog post' + str(self.id)
 
 #The routing stuff
+
+#homepage
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('index.html')
+
 #Blog Posts
 @app.route('/blog_posts', methods=['GET', 'POST'])
 def posts():
@@ -48,8 +54,8 @@ def posts():
         return render_template('posts.html', posts=all_posts)
 
 #To-do app
-@app.route('/', methods=['POST','GET'])
-def index():
+@app.route('/task', methods=['POST','GET'])
+def task():
     if request.method == 'POST':
         task_content = request.form['content']#connects to text area
         new_task = toDo(content = task_content)
@@ -57,13 +63,13 @@ def index():
         try:
             db.session.add(new_task)
             db.session.commit()
-            return redirect('/')
+            return redirect('/task')
         except:
             return 'There was an issue creating this task'
 
     else:
         tasks = toDo.query.order_by(toDo.dateCreated).all()
-        return render_template('index.html', tasks=tasks)#returns homepage
+        return render_template('task.html', tasks=tasks)#returns homepage
 
 #Deleting Stuff
 @app.route('/blog_post_delete/<int:id>')
