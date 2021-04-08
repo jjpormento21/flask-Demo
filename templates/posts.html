@@ -75,30 +75,29 @@
         <i class="bi bi-newspaper" style="font-size: 50px;"></i>
         <br>
         <strong>No posts to show.</strong> Get started by creating a new one!
-</div>
 
-{% endif %}
-{% for post in posts %}
-<div class="card mb-3">
-    <h4 class="card-header">{{ post.title }}</h4>
-    <div class="card-body">
-        <h5 class="card-title"> <i class="bi bi-person-circle"></i> {{ post.author }}</h5>
-        <h6 class="card-subtitle text-muted font-weight-light"> 
-            <i class="bi bi-calendar3"></i> 
-            <i>Posted: </i> {{ post.datePosted }}
-            <br>
-            <i class="bi bi-pencil"></i>
-            <i>Edited: </i> {{ post.dateEdited }}
-        </h6>
-        <hr>
-        <p style="white-space: pre-wrap;">{{ post.content }}</p>
-        <hr>
-        <a href="/blog_edit/{{post.id}}" class="btn btn-success mr-3"><i class="bi bi-pencil-square"></i> Edit</a>
-        <a href="/blog_post_delete/{{post.id}}" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</a>
+
+    {% endif %}
+    {% for post in posts %}
+    <div class="card mb-3">
+        <h4 class="card-header">{{ post.title }}</h4>
+        <div class="card-body">
+            <h5 class="card-title"> <i class="bi bi-person-circle"></i> {{ post.author }}</h5>
+            <h6 class="card-subtitle text-muted font-weight-light"> 
+                <i class="bi bi-calendar3"></i> 
+                <i>Posted: </i> {{ post.datePosted }}
+                <br>
+                <i class="bi bi-pencil"></i>
+                <i>Edited: </i> {{ post.dateEdited }}
+            </h6>
+            <hr>
+            <p style="white-space: pre-wrap;">{{ post.content }}</p>
+            <hr>
+            <a href="/blog_edit/{{post.id}}" class="btn btn-success mr-3" role="button"><i class="bi bi-pencil-square"></i> Edit</a>
+            <a href="/blog_post_delete/{{post.id}}" class="btn btn-danger" role="button"><i class="bi bi-trash"></i> Delete</a>
+        </div>
+    </div>
+    {% endfor %}
     </div>
 </div>
-{% endfor %}
-</div>
-<div style="margin-bottom: 10em;"></div>
-
 {% endblock %}

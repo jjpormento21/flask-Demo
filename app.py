@@ -33,7 +33,7 @@ class BlogPost(db.Model):
 #The routing stuff
 
 #homepage
-@app.route('/', methods=['GET'])
+@app.route('/')
 def index():
     return render_template('index.html')
 

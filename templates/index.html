@@ -3,11 +3,72 @@
 <meta id="page-data" data-pageid="0" />
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
-{% endblock %} {% block body %}
-<div class="showcase container-fluid p-5 text-center">
+{% endblock %}
+
+{% block body %}
+
+<!--Showcase-->
+<div class="showcase container-fluid p-5 text-center text-light">
     <h1 class="text-center text-light h1-custom">TheWebsite</h1>
     <br>
     <h2 class="display-4 text-center text-light">Practice and go.</h2>
-    <button class="btn btn-outline-light btn-lg mt-5">Get Started</button>
+    <a href="#main-heading" class="btn btn-outline-light btn-lg mt-5">Get started</a>
+    <br>
+    <div class="photo-credit mt-5">
+        &copy; Photo by <a
+            href="https://unsplash.com/@jefflssantos?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+            class="text-light">Jefferson
+            Santos</a> on <a
+            href="https://unsplash.com/s/photos/coding?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText "
+            class="text-light">Unsplash</a>
+    </div>
+</div>
+
+<div class="container">
+    <h1 class="display-3 text-center mt-5 mb-5" id="main-heading">All the tools, simplified.</h1>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="card shadow p-3 mb-5 bg-white rounded-lg">
+                <img src="{{ url_for('static', filename = 'assets/list.jpg')}}" class="card-img-top text-center"
+                    alt="clipboard with list">
+                <div class="card-body">
+                    <h5 class="card-title">Task Master</h5>
+                    <p class="card-text">
+                        Want to keep track of things? Try our simple to-do list. Task Master helps you keep your tasks
+                        on track.
+                    </p>
+                    <a href="/task" class="btn btn-primary">Open app</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="card shadow p-3 mb-5 bg-white rounded-lg">
+                <img src="{{ url_for('static', filename = 'assets/social-media.jpg')}}" class="card-img-top"
+                    alt="phone with pencil">
+                <div class="card-body">
+                    <h5 class="card-title">Freedom Wall</h5>
+                    <p class="card-text">
+                        You can now post anything you like on this site. And the Freedom Wall is the place to be. Be sure
+                        to read our terms and conditions before using the service.
+                    </p>
+                    <a href="/blog_posts" class="btn btn-primary">Open app</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4">Looking for the source code?</h1>
+        <p class="lead">
+            This website is open-source, and is a remnant of practicing the Flask Demo. Contributions are welcome. 
+        </p>
+        <hr class="my-4">
+        <p>To learn about the source code or you wish to practice, click the link below to get started.</p>
+        <a class="btn btn-primary btn-lg" href="https://github.com/jjpormento21/flask-Demo.git" role="button">Learn more</a>
+    </div>
 </div>
 {% endblock %}
