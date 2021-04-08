@@ -69,7 +69,7 @@ def task():
 
     else:
         tasks = toDo.query.order_by(toDo.dateCreated).all()
-        return render_template('task.html', tasks=tasks)#returns homepage
+        return render_template('task.html', tasks=tasks)
 
 #Deleting Stuff
 @app.route('/blog_post_delete/<int:id>')
@@ -88,7 +88,7 @@ def task_delete(id):
     try:
         db.session.delete(itemToDelete)
         db.session.commit()
-        return redirect('/')
+        return redirect('/task')
     except:
         return 'There was an issue deleting this task'
 
@@ -115,7 +115,7 @@ def task_update(id):
 
         try:
             db.session.commit()
-            return redirect('/')
+            return redirect('/task')
         except:
             return 'There was an issue updating this task'
     else:
