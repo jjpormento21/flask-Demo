@@ -1,6 +1,13 @@
 {% extends 'base.html' %} {% block head %}
 <title>Flask 101</title>
 <meta id="page-data" data-pageid="0" />
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
 {% endblock %} {% block body %}
-<h1>This is a homepage.</h1>
+<div class="showcase container-fluid p-5 text-center">
+    <h1 class="text-center text-light h1-custom">TheWebsite</h1>
+    <br>
+    <h2 class="display-4 text-center text-light">Practice and go.</h2>
+    <button class="btn btn-outline-light btn-lg mt-5">Get Started</button>
+</div>
 {% endblock %}
