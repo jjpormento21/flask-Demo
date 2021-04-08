@@ -30,7 +30,19 @@ span > input {
 }
 
 /* media queries */
-@media screen and (max-width:700px){
+@media screen and (max-width:498px){
+  .h1-custom {
+    font-size: 2em;
+  }
+  .display-4{
+    font-size: 1em;
+  }
+  .photo-credit{
+    text-align: center;
+    float: none;
+  }
+}
+@media screen and (min-width:499px) and (max-width:800px){
   .h1-custom {
     font-size: 4em;
   }
