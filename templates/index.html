@@ -1,5 +1,8 @@
 {% extends 'base.html' %} {% block head %}
-<title>Flask 101</title>
+<title>TheWebsite - Home</title>
+<meta name="title" content="TheWebsite - Home">
+<meta name="description"
+    content="Remember my Flask demo? It now has a new name - TheWebsite. Feel free to explore new apps within.">
 <meta id="page-data" data-pageid="0" />
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
@@ -11,7 +14,7 @@
 <div class="showcase container-fluid p-5 text-center text-light">
     <h1 class="text-light h1-custom">TheWebsite</h1>
     <br>
-    <h2 class="display-4 text-center text-light">Practice and go.</h2>
+    <h2 class="display-4 display-custom text-center text-light">Practice and go.</h2>
     <a href="#main-heading" class="btn btn-outline-light btn-lg mt-5">Get started</a>
     <br>
     <div class="photo-credit mt-5">
@@ -49,7 +52,8 @@
                 <div class="card-body">
                     <h5 class="card-title">Freedom Wall</h5>
                     <p class="card-text">
-                        You can now post anything you like on this site. And the Freedom Wall is the place to be. Be sure
+                        You can now post anything you like on this site. And the Freedom Wall is the place to be. Be
+                        sure
                         to read our terms and conditions before using the service.
                     </p>
                     <a href="/blog_posts" class="btn btn-primary">Open app</a>
@@ -62,13 +66,14 @@
 
 <div class="container">
     <div class="jumbotron">
-        <h1 class="display-4">Looking for the source code?</h1>
+        <h1 class="display-4 display-custom">Looking for the source code?</h1>
         <p class="lead">
-            This website is open-source, and is a remnant of practicing the Flask Demo. Contributions are welcome. 
+            This website is open-source, and is a remnant of practicing the Flask Demo. Contributions are welcome.
         </p>
         <hr class="my-4">
         <p>To learn about the source code or you wish to practice, click the link below to get started.</p>
-        <a class="btn btn-primary btn-lg" href="https://github.com/jjpormento21/flask-Demo.git" role="button">Learn more</a>
+        <a class="btn btn-primary btn-lg" href="https://github.com/jjpormento21/flask-Demo.git" role="button">Learn
+            more</a>
     </div>
 </div>
 {% endblock %}
