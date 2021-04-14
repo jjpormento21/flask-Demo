@@ -6,12 +6,8 @@ span > input {
 }
 
 :root {
-  --header-height: 60px;
-  scroll-padding-top: var(--header-height);
+  scroll-padding-top: 60px;
   scroll-behavior: smooth;
-}
-.navbar {
-  height: var(--header-height);
 }
 .showcase {
   background-image: url(/static/assets/coding.jpg);
