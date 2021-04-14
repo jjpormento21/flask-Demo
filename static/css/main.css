@@ -5,6 +5,14 @@ span > input {
   border: 0;
 }
 
+:root {
+  --header-height: 60px;
+  scroll-padding-top: var(--header-height);
+  scroll-behavior: smooth;
+}
+.navbar {
+  height: var(--header-height);
+}
 .showcase {
   background-image: url(/static/assets/coding.jpg);
   background-color: darkslategrey;
