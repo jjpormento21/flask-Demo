@@ -5,7 +5,7 @@ console.log(pageData);
 $(navLinks[pageData.pageid]).addClass("active");
 
 let today = new Date();
-var element = document.getElementById("dateEdited");
+let element = document.getElementById("dateEdited");
 element.value = today.toString();
 
 function setPostToDelete(postId) {
