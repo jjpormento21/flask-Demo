@@ -94,31 +94,35 @@
                 <hr>
                 <a href="/blog_edit/{{post.id}}" class="btn btn-success mr-3" role="button"><i
                         class="bi bi-pencil-square"></i> Edit</a>
-                <button class="btn btn-danger" data-toggle="modal" data-target="#deletePost"><i class="bi bi-trash"></i> Delete</button>
-            </div>
-        </div>
-        <!--Delete modal alert-->
-        <!-- Modal -->
-        <div class="modal fade" id="deletePost" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Delete Post</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure you want to delete this post? This cannot be undone!</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <a href="/blog_post_delete/{{post.id}}" class="btn btn-primary" role="button">
-                            Yes</a>
+                <button class="btn btn-danger" onclick="setPostToDelete('{{post.id}}')" data-toggle="modal"
+                    data-target="#deletePost"><i class="bi bi-trash"></i> Delete</button>
+                <!--Delete modal alert-->
+                <!-- Modal -->
+                <div class="modal fade" id="deletePost" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Delete Post</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete this post? This cannot be undone!</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <a href="/blog_post_delete/{{post.id}}" class="btn btn-primary delete-post-btn"
+                                    role="button">
+                                    Yes</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
 
         {% endfor %}
 </div>
