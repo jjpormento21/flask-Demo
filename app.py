@@ -1,23 +1,26 @@
 from flask import Flask, render_template, url_for, request, redirect
 from datetime import datetime
-
+from flask_pymongo import PyMongo
 #importing database
 from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['MONGO_URI'] = 'mongodb+srv://admin:HnI37MkYad9M9PQp@cluster0.qg0ok.mongodb.net/theWebsite?retryWrites=true&w=majority'
+mongo = PyMongo(app)
 #tells the app where the database is located
 db = SQLAlchemy(app) #initialize database
+taskMaster = mongo.db.toDo
 
 #Tables/Entities
-class toDo(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    content = db.Column(db.String(200), nullable = False)
-    dateCreated = db.Column(db.DateTime, default = datetime.today)
+# class toDo(db.Model):
+#     id = db.Column(db.Integer, primary_key = True)
+#     content = db.Column(db.String(200), nullable = False)
+#     dateCreated = db.Column(db.DateTime, default = datetime.today)
 
-    def __repr__(self):
-        return '<Task %r>' % self.id
+#     def __repr__(self):
+#         return '<Task %r>' % self.id
 
 class BlogPost(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -54,22 +57,16 @@ def posts():
         return render_template('posts.html', posts=all_posts)
 
 #To-do app
-@app.route('/task', methods=['POST','GET'])
+@app.route('/add_task', methods=['POST'])
 def task():
-    if request.method == 'POST':
-        task_content = request.form['content']#connects to text area
-        new_task = toDo(content = task_content)
+    new_task = request.form.get('content')
+    taskMaster.insert_one({'text' : new_task})
+    return redirect('/task')
 
-        try:
-            db.session.add(new_task)
-            db.session.commit()
-            return redirect('/task')
-        except:
-            return 'There was an issue creating this task'
-
-    else:
-        tasks = toDo.query.order_by(toDo.dateCreated).all()
-        return render_template('task.html', tasks=tasks)
+@app.route('/task')
+def task_page():
+    tasks = taskMaster.find()
+    return render_template('task.html', tasks=tasks)
 
 #Deleting Stuff
 @app.route('/blog_post_delete/<int:id>')
