@@ -13,14 +13,9 @@ mongo = PyMongo(app)
 db = SQLAlchemy(app) #initialize database
 taskMaster = mongo.db.toDo
 
-#Tables/Entities
-# class toDo(db.Model):
-#     id = db.Column(db.Integer, primary_key = True)
-#     content = db.Column(db.String(200), nullable = False)
-#     dateCreated = db.Column(db.DateTime, default = datetime.today)
+dateToday = datetime.utcnow()
 
-#     def __repr__(self):
-#         return '<Task %r>' % self.id
+idNum = 0
 
 class BlogPost(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -59,8 +54,10 @@ def posts():
 #To-do app
 @app.route('/add_task', methods=['POST'])
 def task():
+    global idNum
     new_task = request.form.get('content')
-    taskMaster.insert_one({'text' : new_task})
+    idNum+=1
+    taskMaster.insert_one({'text' : new_task , 'date' : dateToday, 'number' : idNum})
     return redirect('/task')
 
 @app.route('/task')
