@@ -1,14 +1,16 @@
 from flask import Flask, render_template, url_for, request, redirect
 from datetime import datetime
 from flask_pymongo import PyMongo
+from dotenv import load_dotenv
+load_dotenv()
 #importing database
 from flask_sqlalchemy import SQLAlchemy
 from bson.objectid import ObjectId
-
+import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-app.config['MONGO_URI'] = 'mongodb+srv://admin:YLeiV5HZcd1aN4NE@cluster0.zgjuh.mongodb.net/thewebsite?retryWrites=true&w=majority'
+app.config['MONGO_URI'] = os.getenv('MONGO_URI')
 mongo = PyMongo(app)
 #tells the app where the database is located
 db = SQLAlchemy(app) #initialize database
