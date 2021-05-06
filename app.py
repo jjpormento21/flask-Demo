@@ -10,7 +10,7 @@ import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-app.config['MONGO_URI'] = os.getenv('MONGO_URI')
+app.config['MONGO_URI'] = str(os.getenv('MONGO_URI'))
 mongo = PyMongo(app)
 #tells the app where the database is located
 db = SQLAlchemy(app) #initialize database
