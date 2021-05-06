@@ -107,9 +107,6 @@ def task_delete(oid):
     taskMaster.delete_one({'_id': ObjectId(oid)})
     return redirect(url_for('task_page'))
 
-# @app.route('/task_update_page/<oid>')
-# def task_update_page(oid):
-
 @app.route('/task_update/<oid>', methods = ['GET', 'POST'])
 def task_update(oid):
     task = taskMaster.find_one_or_404({'_id': ObjectId(oid)})
