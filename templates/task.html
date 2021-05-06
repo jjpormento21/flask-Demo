@@ -24,9 +24,9 @@
           <td>{{ task.text }}</td>
           <td>{{ task.date }}</td>
           <td>
-            <a href="/task_update/{{task.id}}" class="btn btn-success btn-block disabled" role="button"><span
+            <a href="/task_update/{{task._id}}" class="btn btn-success btn-block" role="button"><span
                 class="bi bi-pencil-square"></span> Edit</a>
-            <a href="/task_delete/{{task.id}}" class="btn btn-danger btn-block disabled" role="button"><span
+            <a href="/task_delete/{{task._id}}" class="btn btn-danger btn-block" role="button"><span
                 class="bi bi-trash"></span> Delete</a>
           </td>
         </tr>

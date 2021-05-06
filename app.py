@@ -3,19 +3,18 @@ from datetime import datetime
 from flask_pymongo import PyMongo
 #importing database
 from flask_sqlalchemy import SQLAlchemy
+from bson.objectid import ObjectId
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-app.config['MONGO_URI'] = 'mongodb+srv://admin:HnI37MkYad9M9PQp@cluster0.qg0ok.mongodb.net/theWebsite?retryWrites=true&w=majority'
+app.config['MONGO_URI'] = 'mongodb+srv://admin:YLeiV5HZcd1aN4NE@cluster0.zgjuh.mongodb.net/thewebsite?retryWrites=true&w=majority'
 mongo = PyMongo(app)
 #tells the app where the database is located
 db = SQLAlchemy(app) #initialize database
-taskMaster = mongo.db.toDo
+taskMaster = mongo.db.taskmaster
 
 dateToday = datetime.utcnow()
-
-idNum = 0
 
 class BlogPost(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -35,7 +34,7 @@ class BlogPost(db.Model):
 def index():
     return render_template('index.html')
 
-#Blog Posts
+#Blog App
 @app.route('/blog_posts', methods=['GET', 'POST'])
 def posts():
     #it is latest by default
@@ -51,21 +50,6 @@ def posts():
         all_posts = BlogPost.query.order_by(BlogPost.datePosted.desc()).all()
         return render_template('posts.html', posts=all_posts)
 
-#To-do app
-@app.route('/add_task', methods=['POST'])
-def task():
-    global idNum
-    new_task = request.form.get('content')
-    idNum+=1
-    taskMaster.insert_one({'text' : new_task , 'date' : dateToday, 'number' : idNum})
-    return redirect('/task')
-
-@app.route('/task')
-def task_page():
-    tasks = taskMaster.find()
-    return render_template('task.html', tasks=tasks)
-
-#Deleting Stuff
 @app.route('/blog_post_delete/<int:id>')
 def blog_post_delete(id):
     itemToDelete = BlogPost.query.get_or_404(id)
@@ -76,17 +60,6 @@ def blog_post_delete(id):
     except:
         return 'There was an issue deleting this task'
 
-@app.route('/task_delete/<int:id>')
-def task_delete(id):
-    itemToDelete = toDo.query.get_or_404(id)
-    try:
-        db.session.delete(itemToDelete)
-        db.session.commit()
-        return redirect('/task')
-    except:
-        return 'There was an issue deleting this task'
-
-#Updating Stuff
 @app.route('/blog_edit/<int:id>', methods= ['GET', 'POST'])
 def blog_edit(id):
     post = BlogPost.query.get_or_404(id)
@@ -100,22 +73,6 @@ def blog_edit(id):
     else:
         return render_template('blog_edit.html', post=post)
 
-@app.route('/task_update/<int:id>', methods = ['GET', 'POST'])
-def task_update(id):
-    task = toDo.query.get_or_404(id)
-
-    if request.method == 'POST':
-        task.content = request.form['content']
-
-        try:
-            db.session.commit()
-            return redirect('/task')
-        except:
-            return 'There was an issue updating this task'
-    else:
-        return render_template('task_update.html', task=task)
-
-#Filters
 @app.route('/blog_posts_old', methods=['GET', 'POST'])
 def posts_oldest():
     
@@ -130,6 +87,36 @@ def posts_oldest():
     else:
         all_posts = BlogPost.query.order_by(BlogPost.datePosted).all()
         return render_template('posts.html', posts=all_posts)
+
+#To-do app
+@app.route('/add_task', methods=['POST'])
+def task():
+    new_task = request.form.get('content')
+    taskMaster.insert_one({'text' : new_task , 'date' : dateToday})
+    return redirect('/task')
+
+@app.route('/task')
+def task_page():
+    tasks = taskMaster.find()
+    return render_template('task.html', tasks=tasks)
+
+@app.route('/task_delete/<oid>')
+def task_delete(oid):
+    taskMaster.delete_one({'_id': ObjectId(oid)})
+    return redirect(url_for('task_page'))
+
+# @app.route('/task_update_page/<oid>')
+# def task_update_page(oid):
+
+@app.route('/task_update/<oid>', methods = ['GET', 'POST'])
+def task_update(oid):
+    task = taskMaster.find_one_or_404({'_id': ObjectId(oid)})
+    if request.method == 'POST':
+        update_task = request.form.get('content')
+        taskMaster.update_one({'_id': ObjectId(oid)},{'$set':{'text': update_task}})
+        return redirect(url_for('task_page'))
+    else:
+        return render_template('task_update.html', task = task)
 
 if __name__ == "__main__":
     app.run(debug=True) #if there are errors, it will show on the page
