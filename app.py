@@ -4,15 +4,13 @@ from flask_pymongo import PyMongo
 from dotenv import load_dotenv
 load_dotenv()
 #importing database
-from flask_sqlalchemy import SQLAlchemy
 from bson.objectid import ObjectId
 import os
 
 app = Flask(__name__)
 app.config['MONGO_URI'] = str(os.getenv('MONGO_URI'))
 mongo = PyMongo(app)
-#tells the app where the database is located
-db = SQLAlchemy(app) #initialize database
+# Collections (tables)
 taskMaster = mongo.db.taskmaster
 freedomWall = mongo.db.blog_posts
 
@@ -33,7 +31,7 @@ def posts():
         post_title = request.form.get('title')
         post_content = request.form.get('content')
         post_author = request.form.get('author')
-        freedomWall.insert_one({'title':post_title, 'content': post_content, 'author': post_author, 'date': dateToday})
+        freedomWall.insert_one({'title':post_title, 'content': post_content, 'author': post_author, 'datePosted': dateToday})
         return redirect('/blog_posts')
     else:
         return render_template('posts.html', posts=all_posts)
@@ -50,25 +48,10 @@ def blog_edit(oid):
         post_title = request.form.get('title')
         post_content = request.form.get('content')
         post_author = request.form.get('author')
-        freedomWall.update_one({'title':post_title, 'content': post_content, 'author': post_author, 'date': dateToday})
+        freedomWall.update_one({'_id': ObjectId(oid)},{'$set':{'title':post_title, 'content': post_content, 'author': post_author, 'dateEdited': dateToday}})
         return redirect('/blog_posts')
     else:
         return render_template('blog_edit.html', post=post)
-
-# @app.route('/blog_posts_old', methods=['GET', 'POST'])
-# def posts_oldest():
-    
-#     if request.method == 'POST':
-#         post_title = request.form['title']
-#         post_content = request.form['content']
-#         post_author = request.form['author']
-#         new_post = BlogPost(title=post_title, author=post_author, content=post_content)
-#         db.session.add(new_post)
-#         db.session.commit()
-#         return redirect('/blog_posts')
-#     else:
-#         all_posts = BlogPost.query.order_by(BlogPost.datePosted).all()
-#         return render_template('posts.html', posts=all_posts)
 
 #To-do app
 @app.route('/add_task', methods=['POST'])
