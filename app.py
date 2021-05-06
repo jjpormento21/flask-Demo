@@ -9,25 +9,14 @@ from bson.objectid import ObjectId
 import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.config['MONGO_URI'] = str(os.getenv('MONGO_URI'))
 mongo = PyMongo(app)
 #tells the app where the database is located
 db = SQLAlchemy(app) #initialize database
 taskMaster = mongo.db.taskmaster
+freedomWall = mongo.db.blog_posts
 
 dateToday = datetime.utcnow()
-
-class BlogPost(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    title = db.Column(db.String(50), nullable = False)
-    content = db.Column(db.Text, nullable=False)
-    author = db.Column(db.String(20), nullable=False)
-    datePosted = db.Column(db.DateTime, nullable = False , default = datetime.utcnow)
-    dateEdited = db.Column(db.String(30), nullable = False, default = datetime.utcnow)
-
-    def __repr__(self):
-        return 'Blog post' + str(self.id)
 
 #The routing stuff
 
@@ -39,56 +28,47 @@ def index():
 #Blog App
 @app.route('/blog_posts', methods=['GET', 'POST'])
 def posts():
-    #it is latest by default
+    all_posts = freedomWall.find()
     if request.method == 'POST':
-        post_title = request.form['title']
-        post_content = request.form['content']
-        post_author = request.form['author']
-        new_post = BlogPost(title=post_title, author=post_author, content=post_content)
-        db.session.add(new_post)
-        db.session.commit()
+        post_title = request.form.get('title')
+        post_content = request.form.get('content')
+        post_author = request.form.get('author')
+        freedomWall.insert_one({'title':post_title, 'content': post_content, 'author': post_author, 'date': dateToday})
         return redirect('/blog_posts')
     else:
-        all_posts = BlogPost.query.order_by(BlogPost.datePosted.desc()).all()
         return render_template('posts.html', posts=all_posts)
 
-@app.route('/blog_post_delete/<int:id>')
-def blog_post_delete(id):
-    itemToDelete = BlogPost.query.get_or_404(id)
-    try:
-        db.session.delete(itemToDelete)
-        db.session.commit()
-        return redirect('/blog_posts')
-    except:
-        return 'There was an issue deleting this task'
+@app.route('/blog_post_delete/<oid>')
+def blog_post_delete(oid):
+    freedomWall.delete_one({'_id': ObjectId(oid)})
+    return redirect(url_for('posts'))
 
-@app.route('/blog_edit/<int:id>', methods= ['GET', 'POST'])
-def blog_edit(id):
-    post = BlogPost.query.get_or_404(id)
+@app.route('/blog_edit/<oid>', methods= ['GET', 'POST'])
+def blog_edit(oid):
+    post = freedomWall.find_one_or_404({'_id': ObjectId(oid)})
     if request.method == 'POST':
-        post.title = request.form['title']
-        post.author = request.form['author']
-        post.content = request.form['content']
-        post.dateEdited = request.form['dateEdited']
-        db.session.commit()
+        post_title = request.form.get('title')
+        post_content = request.form.get('content')
+        post_author = request.form.get('author')
+        freedomWall.update_one({'title':post_title, 'content': post_content, 'author': post_author, 'date': dateToday})
         return redirect('/blog_posts')
     else:
         return render_template('blog_edit.html', post=post)
 
-@app.route('/blog_posts_old', methods=['GET', 'POST'])
-def posts_oldest():
+# @app.route('/blog_posts_old', methods=['GET', 'POST'])
+# def posts_oldest():
     
-    if request.method == 'POST':
-        post_title = request.form['title']
-        post_content = request.form['content']
-        post_author = request.form['author']
-        new_post = BlogPost(title=post_title, author=post_author, content=post_content)
-        db.session.add(new_post)
-        db.session.commit()
-        return redirect('/blog_posts')
-    else:
-        all_posts = BlogPost.query.order_by(BlogPost.datePosted).all()
-        return render_template('posts.html', posts=all_posts)
+#     if request.method == 'POST':
+#         post_title = request.form['title']
+#         post_content = request.form['content']
+#         post_author = request.form['author']
+#         new_post = BlogPost(title=post_title, author=post_author, content=post_content)
+#         db.session.add(new_post)
+#         db.session.commit()
+#         return redirect('/blog_posts')
+#     else:
+#         all_posts = BlogPost.query.order_by(BlogPost.datePosted).all()
+#         return render_template('posts.html', posts=all_posts)
 
 #To-do app
 @app.route('/add_task', methods=['POST'])
