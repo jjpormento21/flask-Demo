@@ -10,7 +10,25 @@ import os
 
 app = Flask(__name__)
 app.config['MONGO_URI'] = str(os.getenv('MONGO_URI'))
-Talisman(app)
+talisman = Talisman(
+    app,
+    content_security_policy={
+        'default-src': SELF,
+        'img-src': '*',
+        'script-src': [
+            SELF,
+            'some.cdn.com',
+        ],
+        'style-src': [
+            SELF,
+            'another.cdn.com',
+        ],
+    },
+    content_security_policy_nonce_in=['script-src'],
+    feature_policy={
+        'geolocation': '\'none\'',
+    }
+)
 mongo = PyMongo(app)
 # Collections (tables)
 taskMaster = mongo.db.taskmaster
