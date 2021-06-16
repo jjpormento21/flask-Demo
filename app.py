@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, request, redirect
 from datetime import datetime
+from flask_talisman import Talisman
 from flask_pymongo import PyMongo
 from dotenv import load_dotenv
 load_dotenv()
@@ -9,6 +10,7 @@ import os
 
 app = Flask(__name__)
 app.config['MONGO_URI'] = str(os.getenv('MONGO_URI'))
+Talisman(app)
 mongo = PyMongo(app)
 # Collections (tables)
 taskMaster = mongo.db.taskmaster
