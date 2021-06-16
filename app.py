@@ -15,8 +15,10 @@ csp = {
     'default-src': [
         '\'self\'',
         'cdn.jsdelivr.net',
-        'code.jquery.com'
-    ]
+        'code.jquery.com',
+        'fonts.googleapis.com'
+    ],
+    'img-src': '*'
 }
 Talisman(app, content_security_policy = csp)
 mongo = PyMongo(app)
