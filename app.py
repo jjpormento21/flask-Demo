@@ -8,6 +8,7 @@ load_dotenv()
 from bson.objectid import ObjectId
 import os
 
+SELF = "'self'"
 app = Flask(__name__)
 app.config['MONGO_URI'] = str(os.getenv('MONGO_URI'))
 talisman = Talisman(
