@@ -8,28 +8,17 @@ load_dotenv()
 from bson.objectid import ObjectId
 import os
 
-SELF = "'self'"
 app = Flask(__name__)
 app.config['MONGO_URI'] = str(os.getenv('MONGO_URI'))
-talisman = Talisman(
-    app,
-    content_security_policy={
-        'default-src': SELF,
-        'img-src': '*',
-        'script-src': [
-            SELF,
-            'some.cdn.com',
-        ],
-        'style-src': [
-            SELF,
-            'another.cdn.com',
-        ],
-    },
-    content_security_policy_nonce_in=['script-src'],
-    feature_policy={
-        'geolocation': '\'none\'',
-    }
-)
+
+csp = {
+    'default-src': [
+        '\'self\'',
+        'cdn.jsdelivr.net',
+        'code.jquery.com'
+    ]
+}
+Talisman(app, content_security_policy = csp)
 mongo = PyMongo(app)
 # Collections (tables)
 taskMaster = mongo.db.taskmaster
